@@ -7,7 +7,6 @@ import Registro from "./Screens/Login/Registro";
 import Ofertas from "./Screens/Ofertas/Ofertas";
 import Perfil from "./Screens/Perfil/Perfil";
 import Mapa from "./Screens/Mapa/Mapa";
-import QRLista from "./Screens/QR/QRLista";
 import Asistente from "./Screens/IA/Asistente";
 
 export default function Navegacion({ user, setUser }) {
@@ -16,29 +15,31 @@ export default function Navegacion({ user, setUser }) {
       {/* Mostrar navbar solo si hay usuario */}
       {user && <Navbar cerrarSesion={() => setUser(null)} />}
 
-      <Routes>
-        {/* Rutas públicas */}
-        {!user && (
-          <>
-            <Route path="/login" element={<Login setUser={setUser} />} />
-            <Route path="/registro" element={<Registro setUser={setUser} />} />
-            <Route path="/oferta" element={<Registro setUser={setUser} />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </>
-        )}
+   <Routes>
+  {/* Rutas públicas */}
+  {!user && (
+    <>
+      <Route path="/login" element={<Login setUser={setUser} />} />
+      <Route path="/registro" element={<Registro setUser={setUser} />} />
+      {/* Redireccionar cualquier otra ruta a login */}
+      <Route path="*" element={<Navigate to="/login" replace />} />
+    </>
+  )}
 
-        {/* Rutas privadas */}
-        {user && (
-          <>
-            <Route path="/" element={<Ofertas />} />
-            <Route path="/perfil" element={<Perfil />} />
-            <Route path="/mapa" element={<Mapa />} />
-            <Route path="/qr" element={<QRLista />} />
-            <Route path="/asistente" element={<Asistente />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </>
-        )}
-      </Routes>
+  {/* Rutas privadas */}
+  {user && (
+    <>
+      <Route path="/" element={<Ofertas />} />
+      <Route path="/oferta" element={<Ofertas />} />
+      <Route path="/perfil" element={<Perfil />} />
+      <Route path="/mapa" element={<Mapa />} />
+      <Route path="/asistente" element={<Asistente />} />
+      {/* Redireccionar cualquier otra ruta a "/" */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </>
+  )}
+</Routes>
+
     </>
   );
 }
